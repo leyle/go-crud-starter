@@ -1,0 +1,66 @@
+server:
+  debug: true
+  host: "0.0.0.0"
+  port: 9000
+
+auth:
+  signature:
+    expiryIn: 86400 # seconds
+  jwt:
+    host: "http://org1.dev.fabric.fdipoc.com/ssoarta"
+    verifyAPI: "/api/user/token/verify"
+  noAuthPaths:
+    - /api/v1/server/ping
+
+log:
+  level: "debug"  # trace / debug / info / warn / error / panic
+  format: "json" # line / json
+  ignoreReqBody:
+    - /api/v1/kyc/file/upload
+  ignoreResponseBody:
+    - /api/v1/kyc/file/download
+    - /api/v1/kyc/admin/file/download
+
+redis:
+  hostPort: "redis.x201.pymom.com:6379"
+  password: "abc123"
+  dbNum: 0
+  service: "CRUD"
+  acquireTime: 30 # seconds, wait to get lock
+  lockTime: 30 # seconds, lock data time period
+
+mongodb:
+  replica: true
+  replicaSet: "devRepl"
+  hostPorts:
+    - mgo1.x201.pymom.com:27017
+    - mgo2.x201.pymom.com:27018
+    - mgo3.x201.pymom.com:27019
+  username: "dbuser"
+  password: "dbpasswd"
+  database: "dev"
+  connOption: "maxPoolSize=20&w=majority"
+  writeTimeout: 120 # seconds
+  readTimeout: 60 # seconds
+  tls:
+    enabled: false
+    pem: "/path/to/pem/file"
+
+sms:
+  debug: true # when debug is true, verification code will return with api response
+  rate: 60 # seconds
+  expiryIn: 600 # rate * 10
+  codeLength: 6
+  supported:
+    - "+852"
+    - "+86"
+  msgFormat: "cbdc user verification level2, your verification code is: %s"
+  # twilio account info
+  twilioURL: ""
+  twilioSID: ""
+  twilioToken: ""
+
+smartContract:
+  host: "https://quorum-api.sto.dev.quorum.pymom.com"
+  api:
+    createProduct: "/api/v1/cbdc/server/product"

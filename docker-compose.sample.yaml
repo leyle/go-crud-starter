@@ -1,0 +1,22 @@
+version: '3.6'
+
+# health check reference
+# https://docs.docker.com/compose/startup-order/
+# https://stackoverflow.com/questions/67904609/how-do-you-perform-a-healthcheck-in-the-redis-docker-image
+
+networks:
+  starter-service-nt:
+    name: go-crud-starter
+
+services:
+  go-crud-starter-service:
+    image: ghcr.io/leyle/go-crud-starter:v1.0.0
+    container_name: go-crud-starter
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./samples/api-config.yaml:/app/api-config.yaml
+    networks:
+      - starter-service-nt
+    ports:
+      - "9000:9000"
